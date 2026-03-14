@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Lalitha Multispeciality Hospital</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+/* ── RESET & BASE ─────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:#fff;color:#0f1c22;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+em{font-style:italic;color:#0d7ea0;font-family:'Cormorant Garamond',serif;font-weight:600}
+
+/* ── VARIABLES ─────────────────────────────────────────── */
+:root{
+  --teal-dark:#063d52;--teal:#0a5f78;--teal-mid:#0d7ea0;--teal-light:#1aabcf;
+  --gold:#c9a96e;--gold-light:#e8c98a;--cream:#f8f5ef;--bg-light:#f0f6f9;
+  --text-dark:#0f1c22;--text-mid:#3a5a6a;--border:rgba(10,95,120,0.12);
+  --shadow:0 20px 60px rgba(6,61,82,0.12);--r:16px;--rs:8px;
+}
+
+/* ── PRELOADER ─────────────────────────────────────────── */
+#preloader{
+  position:fixed;inset:0;background:var(--teal-dark);
+  display:flex;align-items:center;justify-content:center;
+  z-index:9999;transition:opacity .6s ease,visibility .6s ease;
+}
+#preloader.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.pr-cross{width:50px;height:50px;fill:var(--gold);animation:popIn 1.2s ease forwards;position:relative;z-index:2}
+@keyframes popIn{0%{transform:scale(0) rotate(-45deg);opacity:0}60%{transform:scale(1.2) rotate(5deg);opacity:1}100%{transform:scale(1) rotate(0);opacity:1}}
+.pr-ring{position:absolute;width:80px;height:80px;border:2px solid rgba(201,169,110,.4);border-radius:50%;animation:pRing 1.4s ease-out infinite}
+.pr-ring2{animation-delay:.5s}
+@keyframes pRing{0%{transform:scale(.8);opacity:1}100%{transform:scale(2.5);opacity:0}}
+
+/* ── NAVBAR ─────────────────────────────────────────────── */
+#navbar{position:fixed;top:0;left:0;right:0;z-index:100;transition:background .3s,box-shadow .3s}
+#navbar.scrolled{background:rgba(6,61,82,.97);backdrop-filter:blur(12px);box-shadow:0 4px 30px rgba(0,0,0,.2)}
+.nav-inner{max-width:1280px;margin:0 auto;padding:0 2rem;height:70px;display:flex;align-items:center;gap:2rem}
+.logo{display:flex;align-items:center;gap:.75rem}
+.logo-cross{width:34px;height:34px;fill:var(--gold);flex-shrink:0}
+.logo-text{display:flex;flex-direction:column;line-height:1.1}
+.logo-main{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:#fff}
+.logo-sub{font-size:.62rem;color:var(--gold-light);letter-spacing:.08em;text-transform:uppercase}
+.nav-links{display:flex;list-style:none;gap:2rem;margin-left:auto}
+.nav-links a{color:rgba(255,255,255,.82);font-size:.87rem;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--gold-light)}
+.btn-booknav{background:var(--gold);color:var(--teal-dark);padding:.5rem 1.3rem;border-radius:50px;font-weight:700;font-size:.83rem;white-space:nowrap;transition:background .2s,transform .2s}
+.btn-booknav:hover{background:var(--gold-light);transform:translateY(-1px)}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;margin-left:auto}
+.hamburger span{display:block;width:24px;height:2px;background:#fff;transition:all .3s}
+.mobile-menu{display:none;flex-direction:column;background:var(--teal-dark);padding:1rem 2rem 1.5rem}
+.mobile-menu a{color:rgba(255,255,255,.85);padding:.6rem 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:.95rem}
+.mobile-menu.open{display:flex}
+
+/* ── HERO ─────────────────────────────────────────────── */
+.hero{min-height:100vh;background:var(--teal-dark);display:flex;align-items:center;position:relative;overflow:hidden;padding:7rem 2rem 4rem}
+.hero-bg{position:absolute;inset:0;pointer-events:none}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.25}
+.orb1{width:600px;height:600px;background:radial-gradient(circle,#1aabcf,transparent);top:-150px;right:-100px}
+.orb2{width:400px;height:400px;background:radial-gradient(circle,#c9a96e,transparent);bottom:-100px;left:-100px}
+.grid-overlay{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:60px 60px}
+.hero-content{max-width:1200px;margin:0 auto;width:100%;z-index:1;display:flex;flex-direction:column;gap:1.5rem;max-width:55%;animation:heroIn 1s ease forwards}
+@keyframes heroIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(201,169,110,.15);border:1px solid rgba(201,169,110,.35);color:var(--gold-light);padding:.4rem 1rem;border-radius:50px;font-size:.78rem;font-weight:500;width:fit-content}
+.badge-dot{width:6px;height:6px;background:var(--gold);border-radius:50%;animation:blink 1.5s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,7vw,5.5rem);font-weight:700;line-height:1.05;color:#fff}
+.hero-title em{color:var(--gold)}
+.hero-desc{color:rgba(255,255,255,.72);font-size:1.05rem;max-width:480px;line-height:1.7}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-primary{display:inline-flex;align-items:center;gap:.5rem;background:var(--teal-mid);color:#fff;padding:.85rem 2rem;border-radius:50px;font-weight:600;font-size:.95rem;transition:background .25s,transform .25s,box-shadow .25s;border:none;cursor:pointer}
+.btn-primary:hover{background:var(--teal);transform:translateY(-2px);box-shadow:0 8px 30px rgba(10,95,120,.3)}
+.btn-ghost{display:inline-flex;align-items:center;gap:.5rem;background:transparent;color:#fff;padding:.85rem 2rem;border-radius:50px;font-weight:600;font-size:.95rem;border:1.5px solid rgba(255,255,255,.4);transition:border-color .25s,background .25s;cursor:pointer}
+.btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.08)}
+.hero-stats{display:flex;align-items:center;gap:1.5rem;margin-top:1rem;flex-wrap:wrap}
+.stat{display:flex;flex-direction:column}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:var(--gold);line-height:1}
+.stat-label{font-size:.75rem;color:rgba(255,255,255,.6);margin-top:.2rem}
+.stat-divider{width:1px;height:40px;background:rgba(255,255,255,.15)}
+.hero-card-wrap{position:absolute;right:5%;top:50%;transform:translateY(-50%);width:340px;z-index:1;animation:cardIn 1s .3s ease both}
+@keyframes cardIn{from{opacity:0;transform:translateY(-40%) translateX(40px)}to{opacity:1;transform:translateY(-50%) translateX(0)}}
+.hero-card{background:rgba(255,255,255,.07);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:1.5rem;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.live-ind{display:flex;align-items:center;gap:.5rem;font-size:.75rem;color:rgba(255,255,255,.6);margin-bottom:1.2rem}
+.live-dot{width:8px;height:8px;background:#2ecc71;border-radius:50%;animation:blink 1.5s ease-in-out infinite}
+.ecg-line{fill:none;stroke:var(--gold);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1000;stroke-dashoffset:1000;animation:drawECG 2s .5s linear forwards}
+@keyframes drawECG{to{stroke-dashoffset:0}}
+.vitals-row{display:flex;justify-content:space-between;margin-top:1.2rem}
+.vital{display:flex;align-items:center;gap:.4rem;font-size:.75rem;color:rgba(255,255,255,.75)}
+.vital i{color:var(--teal-light);font-size:.85rem}
+.scroll-down{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;color:rgba(255,255,255,.4);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase}
+.scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,rgba(255,255,255,.4),transparent);animation:scrollAnim 2s ease-in-out infinite}
+@keyframes scrollAnim{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1)}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ── MARQUEE ─────────────────────────────────────────────── */
+.marquee-strip{background:var(--teal);overflow:hidden;padding:.85rem 0}
+.marquee-track{display:flex;gap:1.5rem;white-space:nowrap;animation:marquee 30s linear infinite;width:max-content}
+.marquee-track span{color:rgba(255,255,255,.85);font-size:.82rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase}
+.marquee-track .dot{color:var(--gold)}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── CONTAINER ──────────────────────────────────────────── */
+.container{max-width:1200px;margin:0 auto;padding:0 2rem}
+
+/* ── SECTION LABELS & HEADERS ───────────────────────────── */
+.sec-label{display:inline-block;font-size:.75rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--teal-mid);padding:.3rem .9rem;border:1px solid var(--teal-mid);border-radius:50px;margin-bottom:1rem}
+.sec-label.light{color:var(--gold-light);border-color:var(--gold-light)}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:700;line-height:1.15;color:var(--text-dark);margin-bottom:1rem}
+.sec-title.light{color:#fff}
+.sec-header{text-align:center;margin-bottom:3.5rem}
+.sec-header p{color:var(--text-mid);max-width:500px;margin:0 auto}
+
+/* ── ABOUT ──────────────────────────────────────────────── */
+.about{padding:7rem 2rem;background:var(--cream)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.about-visual{position:relative;height:420px}
+.a-card{position:absolute;background:#fff;border-radius:var(--r);box-shadow:var(--shadow);animation:floatCard 3s ease-in-out infinite}
+@keyframes floatCard{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.a-main{width:200px;left:50%;top:50%;transform:translate(-50%,-50%);padding:2rem 1.5rem;text-align:center}
+.a-main-icon{font-size:2.5rem;color:var(--teal-mid);margin-bottom:.75rem}
+.a-main h3{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--teal-dark)}
+.a-main p{font-size:.8rem;color:var(--text-mid);margin-top:.3rem}
+.a-mini{display:flex;align-items:center;gap:.6rem;padding:.75rem 1rem;border-left:3px solid var(--teal-mid);font-size:.8rem;font-weight:600;color:var(--teal-dark)}
+.a-mini i{color:var(--teal-mid);font-size:1rem}
+.a-c1{top:5%;left:0;animation-delay:.3s}
+.a-c2{bottom:15%;left:0;animation-delay:.6s}
+.a-c3{top:10%;right:0;animation-delay:.9s}
+.about-text{display:flex;flex-direction:column;gap:1.2rem}
+.about-text p{color:var(--text-mid);line-height:1.8}
+.about-feats{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.af{display:flex;align-items:center;gap:.5rem;font-size:.88rem;font-weight:500;color:var(--text-dark)}
+.af i{color:var(--teal-mid)}
+
+/* ── SPECIALITIES ──────────────────────────────────────── */
+.specialities{padding:7rem 2rem;background:#fff}
+.spec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
+.spec-card{background:var(--bg-light);border:1px solid var(--border);border-radius:var(--r);padding:2rem 1.5rem;transition:transform .3s,box-shadow .3s,background .3s;opacity:0;transform:translateY(24px)}
+.spec-card.visible{opacity:1;transform:translateY(0);transition:opacity .6s ease,transform .6s ease,box-shadow .3s,background .3s}
+.spec-card:hover{transform:translateY(-6px);box-shadow:var(--shadow);background:#fff}
+.spec-icon{width:52px;height:52px;background:var(--teal-dark);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem;font-size:1.3rem;color:var(--gold);transition:background .3s}
+.spec-card:hover .spec-icon{background:var(--teal-mid)}
+.spec-card h3{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--teal-dark);margin-bottom:.5rem}
+.spec-card p{font-size:.85rem;color:var(--text-mid);line-height:1.7}
+
+/* ── DOCTORS ────────────────────────────────────────────── */
+.doctors{padding:7rem 2rem;background:var(--cream)}
+.docs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
+.doc-card{background:#fff;border-radius:var(--r);overflow:hidden;box-shadow:0 4px 20px rgba(6,61,82,.08);transition:transform .3s,box-shadow .3s;opacity:0;transform:translateY(24px)}
+.doc-card.visible{opacity:1;transform:translateY(0);transition:opacity .6s ease,transform .6s ease,box-shadow .3s}
+.doc-card:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+.doc-avatar{height:160px;display:flex;align-items:center;justify-content:center;font-size:4rem;color:rgba(255,255,255,.4)}
+.doc-info{padding:1.5rem}
+.doc-info h3{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:700;color:var(--teal-dark);margin-bottom:.2rem}
+.doc-spec{display:inline-block;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--teal-mid);margin-bottom:.6rem}
+.doc-info p{font-size:.8rem;color:var(--text-mid);margin-bottom:1rem;line-height:1.5}
+.btn-book-doc{display:block;text-align:center;background:var(--bg-light);color:var(--teal-dark);padding:.55rem;border-radius:50px;font-size:.8rem;font-weight:600;border:1px solid var(--border);transition:background .2s,color .2s}
+.btn-book-doc:hover{background:var(--teal-mid);color:#fff}
+
+/* ── APPOINTMENT ────────────────────────────────────────── */
+.appointment{padding:7rem 2rem;background:var(--teal-dark);position:relative;overflow:hidden}
+.appt-orb{position:absolute;right:-200px;top:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(26,171,207,.15),transparent);border-radius:50%}
+.appt-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:5rem;align-items:start;position:relative;z-index:1}
+.appt-info{display:flex;flex-direction:column;gap:1.5rem}
+.appt-info p{color:rgba(255,255,255,.7);line-height:1.8}
+.appt-feats{display:flex;flex-direction:column;gap:.75rem}
+.apf{display:flex;align-items:center;gap:.75rem;color:rgba(255,255,255,.8);font-size:.9rem}
+.apf i{color:var(--gold);width:16px}
+.emerg-box{display:flex;align-items:center;gap:1rem;background:rgba(201,169,110,.12);border:1px solid rgba(201,169,110,.3);border-radius:var(--rs);padding:1rem 1.2rem;margin-top:.5rem}
+.emerg-box>i{color:var(--gold);font-size:1.2rem;flex-shrink:0}
+.emerg-box div{display:flex;flex-direction:column;gap:.1rem}
+.emerg-box strong{color:#fff;font-size:.9rem}
+.emerg-box span{color:rgba(255,255,255,.6);font-size:.82rem}
+.emerg-box a{color:var(--gold-light)}
+.form-wrap{background:#fff;border-radius:20px;padding:2.5rem;box-shadow:0 30px 80px rgba(0,0,0,.3)}
+.appt-form{display:flex;flex-direction:column;gap:1rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.fg{display:flex;flex-direction:column;gap:.4rem}
+.fg label{font-size:.8rem;font-weight:600;color:var(--text-mid);letter-spacing:.03em}
+.fg input,.fg select,.fg textarea{width:100%;padding:.75rem 1rem;border:1.5px solid var(--border);border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:.9rem;color:var(--text-dark);background:var(--bg-light);outline:none;transition:border-color .2s,box-shadow .2s}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--teal-mid);box-shadow:0 0 0 3px rgba(10,95,120,.1);background:#fff}
+.fg textarea{resize:vertical}
+.btn-submit{width:100%;background:var(--teal-dark);color:#fff;padding:1rem;border:none;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:600;cursor:pointer;transition:background .25s,transform .25s;margin-top:.5rem}
+.btn-submit:hover{background:var(--teal);transform:translateY(-1px)}
+.btn-submit:disabled{opacity:.7;cursor:not-allowed;transform:none}
+.form-msg{text-align:center;font-size:.9rem;font-weight:500;padding:.75rem;border-radius:var(--rs);display:none}
+.form-msg.success{background:#e8f8f0;color:#1a7a4a;display:block}
+.form-msg.error{background:#fde8e8;color:#c0392b;display:block}
+
+/* ── CONTACT ────────────────────────────────────────────── */
+.contact{padding:7rem 2rem;background:#fff}
+.contact-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:3rem;align-items:start}
+.contact-cards{display:flex;flex-direction:column;gap:1.2rem}
+.cc{display:flex;align-items:flex-start;gap:1rem;padding:1.2rem 1.5rem;background:var(--bg-light);border-radius:var(--rs);border-left:3px solid var(--teal-mid)}
+.cc-icon{width:42px;height:42px;background:var(--teal-dark);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1rem;flex-shrink:0}
+.cc h4{font-size:.88rem;font-weight:700;color:var(--teal-dark);margin-bottom:.3rem}
+.cc p{font-size:.82rem;color:var(--text-mid);line-height:1.6}
+.cc a{color:var(--teal-mid)}
+.map-box{background:var(--bg-light);border-radius:var(--r);min-height:350px;display:flex;align-items:center;justify-content:center;border:2px dashed var(--border);flex-direction:column;gap:.5rem;text-align:center;color:var(--text-mid)}
+.map-box i{font-size:3rem;color:var(--teal-mid);margin-bottom:1rem;display:block}
+.map-box p{font-size:.9rem;line-height:1.6}
+
+/* ── FOOTER ─────────────────────────────────────────────── */
+.footer{background:var(--teal-dark);padding:5rem 2rem 2rem}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:3rem;margin-bottom:3rem;padding-bottom:3rem;border-bottom:1px solid rgba(255,255,255,.1)}
+.footer-brand .logo{margin-bottom:1rem}
+.footer-brand p{color:rgba(255,255,255,.5);font-size:.85rem;line-height:1.7;margin-bottom:1.5rem}
+.socials{display:flex;gap:.75rem}
+.socials a{width:36px;height:36px;background:rgba(255,255,255,.08);border-radius:8px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.6);font-size:.85rem;transition:background .2s,color .2s}
+.socials a:hover{background:var(--gold);color:var(--teal-dark)}
+.fc h4{color:#fff;font-size:.9rem;font-weight:700;margin-bottom:1.2rem;letter-spacing:.04em}
+.fc ul{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+.fc ul li a{color:rgba(255,255,255,.5);font-size:.85rem;transition:color .2s}
+.fc ul li a:hover{color:var(--gold-light)}
+.emerg-footer{display:flex;align-items:center;gap:.75rem}
+.emerg-footer i{color:var(--gold);font-size:1.5rem}
+.emerg-footer div{display:flex;flex-direction:column}
+.emerg-footer strong{color:#fff;font-size:.85rem;display:block;margin-bottom:.2rem}
+.emerg-footer a{color:var(--gold-light);font-size:1.1rem;font-weight:700}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.footer-bottom p{color:rgba(255,255,255,.35);font-size:.8rem}
+.footer-blinks{display:flex;gap:1.5rem}
+.footer-blinks a{color:rgba(255,255,255,.35);font-size:.8rem;transition:color .2s}
+.footer-blinks a:hover{color:rgba(255,255,255,.7)}
+
+/* ── RESPONSIVE ─────────────────────────────────────────── */
+@media(max-width:1100px){.spec-grid{grid-template-columns:repeat(2,1fr)}.docs-grid{grid-template-columns:repeat(2,1fr)}.footer-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){.hero-content{max-width:100%}.hero-card-wrap{display:none}.about-grid{grid-template-columns:1fr}.about-visual{display:none}.appt-grid{grid-template-columns:1fr;gap:2rem}.contact-grid{grid-template-columns:1fr}.nav-links,.btn-booknav{display:none}.hamburger{display:flex}}
+@media(max-width:640px){.spec-grid{grid-template-columns:1fr}.docs-grid{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr}.hero{padding:6rem 1.5rem 4rem}.about,.specialities,.doctors,.appointment,.contact{padding:4rem 1.5rem}}
+</style>
+</head>
+<body>
+
+<!-- PRELOADER -->
+<div id="preloader">
+  <div class="pr-ring"></div>
+  <div class="pr-ring pr-ring2"></div>
+  <svg class="pr-cross" viewBox="0 0 60 60"><rect x="24" y="4" width="12" height="52" rx="4"/><rect x="4" y="24" width="52" height="12" rx="4"/></svg>
+</div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#home" class="logo">
+      <svg class="logo-cross" viewBox="0 0 40 40"><rect x="16" y="2" width="8" height="36" rx="3"/><rect x="2" y="16" width="36" height="8" rx="3"/></svg>
+      <div class="logo-text"><span class="logo-main">Lalitha</span><span class="logo-sub">Multispeciality Hospital</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#specialities">Specialities</a></li>
+      <li><a href="#doctors">Doctors</a></li>
+      <li><a href="#appointment">Appointment</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#appointment" class="btn-booknav">Book Now</a>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#home">Home</a><a href="#about">About</a><a href="#specialities">Specialities</a>
+    <a href="#doctors">Doctors</a><a href="#appointment">Appointment</a><a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home" class="hero">
+  <div class="hero-bg">
+    <div class="hero-orb orb1"></div>
+    <div class="hero-orb orb2"></div>
+    <div class="grid-overlay"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="badge-dot"></span> Trusted Healthcare Since 2005</div>
+    <h1 class="hero-title">Care That<br/><em>Transforms</em><br/>Lives</h1>
+    <p class="hero-desc">Lalitha Multispeciality Hospital — where world-class medical expertise meets compassionate patient care across 20+ specialities.</p>
+    <div class="hero-actions">
+      <a href="#appointment" class="btn-primary"><i class="fa-solid fa-calendar-plus"></i> Book Appointment</a>
+      <a href="#specialities" class="btn-ghost">Our Specialities</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num" data-target="25000" data-suffix="k+">0</span><span class="stat-label">Patients Served</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num" data-target="80" data-suffix="+">0</span><span class="stat-label">Expert Doctors</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num" data-target="20" data-suffix="+">0</span><span class="stat-label">Specialities</span></div>
+    </div>
+  </div>
+  <div class="hero-card-wrap">
+    <div class="hero-card">
+      <div class="live-ind"><span class="live-dot"></span> Live Patient Monitoring</div>
+      <svg viewBox="0 0 300 70" style="width:100%">
+        <polyline class="ecg-line" points="0,45 35,45 48,45 52,28 56,8 60,55 64,45 95,45 108,45 112,32 116,12 120,58 124,45 155,45 168,45 172,32 176,12 180,58 184,45 215,45 228,45 232,32 236,12 240,58 244,45 300,45"/>
+      </svg>
+      <div class="vitals-row">
+        <span class="vital"><i class="fa-solid fa-heart-pulse"></i> 72 bpm</span>
+        <span class="vital"><i class="fa-solid fa-droplet"></i> 98% SpO₂</span>
+        <span class="vital"><i class="fa-solid fa-temperature-half"></i> 98.6°F</span>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-down"><span>Scroll</span><div class="scroll-line"></div></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <span>Cardiology</span><span class="dot">•</span><span>Neurology</span><span class="dot">•</span>
+    <span>Orthopedics</span><span class="dot">•</span><span>Oncology</span><span class="dot">•</span>
+    <span>Pediatrics</span><span class="dot">•</span><span>Gynecology</span><span class="dot">•</span>
+    <span>Dermatology</span><span class="dot">•</span><span>Ophthalmology</span><span class="dot">•</span>
+    <span>Urology</span><span class="dot">•</span><span>Gastroenterology</span><span class="dot">•</span>
+    <span>Cardiology</span><span class="dot">•</span><span>Neurology</span><span class="dot">•</span>
+    <span>Orthopedics</span><span class="dot">•</span><span>Oncology</span><span class="dot">•</span>
+    <span>Pediatrics</span><span class="dot">•</span><span>Gynecology</span><span class="dot">•</span>
+    <span>Dermatology</span><span class="dot">•</span><span>Ophthalmology</span><span class="dot">•</span>
+    <span>Urology</span><span class="dot">•</span><span>Gastroenterology</span><span class="dot">•</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about" class="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-visual">
+        <div class="a-card a-main">
+          <div class="a-main-icon"><i class="fa-solid fa-hospital"></i></div>
+          <h3>Est. 2005</h3><p>Serving the community with excellence</p>
+        </div>
+        <div class="a-card a-mini a-c1"><i class="fa-solid fa-award"></i> NABH Accredited</div>
+        <div class="a-card a-mini a-c2"><i class="fa-solid fa-shield-heart"></i> ISO 9001:2015</div>
+        <div class="a-card a-mini a-c3"><i class="fa-solid fa-bed"></i> 350+ Beds</div>
+      </div>
+      <div class="about-text">
+        <div><span class="sec-label">About Us</span></div>
+        <h2 class="sec-title">A Legacy of <em>Healing</em> & Excellence</h2>
+        <p>Founded in 2005, Lalitha Multispeciality Hospital has grown into one of Hyderabad's most trusted healthcare institutions, combining cutting-edge medical technology with compassionate human care.</p>
+        <p>Our 350-bed facility houses state-of-the-art operating theatres, intensive care units, and diagnostic centres — staffed by highly trained physicians, nurses, and support staff.</p>
+        <div class="about-feats">
+          <div class="af"><i class="fa-solid fa-check-circle"></i> 24/7 Emergency Services</div>
+          <div class="af"><i class="fa-solid fa-check-circle"></i> Advanced ICU & NICU</div>
+          <div class="af"><i class="fa-solid fa-check-circle"></i> Robotic Surgery Centre</div>
+          <div class="af"><i class="fa-solid fa-check-circle"></i> In-house Pharmacy & Lab</div>
+        </div>
+        <div><a href="#appointment" class="btn-primary">Get Consultation</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPECIALITIES -->
+<section id="specialities" class="specialities">
+  <div class="container">
+    <div class="sec-header">
+      <span class="sec-label">What We Treat</span>
+      <h2 class="sec-title">Our <em>Specialities</em></h2>
+      <p>Comprehensive medical care across a wide spectrum of specialisations</p>
+    </div>
+    <div class="spec-grid">
+      <div class="spec-card"><div class="spec-icon"><i class="fa-solid fa-heart-pulse"></i></div><h3>Cardiology</h3><p>Advanced cardiac care including interventional procedures, electrophysiology and heart surgery.</p></div>
+      <div class="spec-card"><div class="spec-icon"><i class="fa-solid fa-brain"></i></div><h3>Neurology</h3><p>Comprehensive neurological diagnostics and treatment for stroke, epilepsy and movement disorders.</p></div>
+      <div class="spec-card"><div class="spec-icon"><i class="fa-solid fa-bone"></i></div><h3>Orthopedics</h3><p>Joint replacements, sports medicine, spine surgery and advanced trauma care.</p></div>
+      <div class="spec-card"><div class="spec-icon"><i class="fa-solid fa-ribbon"></i></div><h3>Oncology</h3><p>Comprehensive cancer care with chemotherapy, radiation and surgical oncology services.</p></div>
+      <div class="spec-card"><div class="spec-icon"><i class="fa-solid fa-baby"></i></div><h3>Pediatrics</h3><p>Specialised care for children from newborns through adolescence in a child-friendly environment.</p></div>
+      <div class="spec-card"><div class="spec-icon"><i class="fa-solid fa-venus"></i></div><h3>Gynecology</h3><p>Women's health covering obstetrics, gynecological surgery and fertility treatments.</p></div>
+      <div class="spec-card"><div class="spec-icon"><i class="fa-solid fa-eye"></i></div><h3>Ophthalmology</h3><p>LASIK, cataract surgery, retinal treatments and comprehensive eye care services.</p></div>
+      <div class="spec-card"><div class="spec-icon"><i class="fa-solid fa-lungs"></i></div><h3>Pulmonology</h3><p>Treatment of respiratory conditions including asthma, COPD and sleep disorders.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- DOCTORS -->
+<section id="doctors" class="doctors">
+  <div class="container">
+    <div class="sec-header">
+      <span class="sec-label">Expert Team</span>
+      <h2 class="sec-title">Meet Our <em>Doctors</em></h2>
+      <p>Board-certified specialists dedicated to your health and wellbeing</p>
+    </div>
+    <div class="docs-grid">
+      <div class="doc-card">
+        <div class="doc-avatar" style="background:linear-gradient(135deg,#0a4f6e,#0d7ea0)"><i class="fa-solid fa-user-doctor"></i></div>
+        <div class="doc-info"><h3>Dr. Ramesh Babu</h3><span class="doc-spec">Senior Cardiologist</span><p>MBBS, MD, DM Cardiology — 20+ years experience</p><a href="#appointment" class="btn-book-doc">Book Appointment</a></div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-avatar" style="background:linear-gradient(135deg,#2d6a4f,#40916c)"><i class="fa-solid fa-user-doctor"></i></div>
+        <div class="doc-info"><h3>Dr. Sunitha Reddy</h3><span class="doc-spec">Chief Neurologist</span><p>MBBS, MD, DM Neurology — 18+ years experience</p><a href="#appointment" class="btn-book-doc">Book Appointment</a></div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-avatar" style="background:linear-gradient(135deg,#7b2d8b,#a855f7)"><i class="fa-solid fa-user-doctor"></i></div>
+        <div class="doc-info"><h3>Dr. Venkat Rao</h3><span class="doc-spec">Orthopaedic Surgeon</span><p>MBBS, MS Orthopaedics — 15+ years experience</p><a href="#appointment" class="btn-book-doc">Book Appointment</a></div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-avatar" style="background:linear-gradient(135deg,#b5451b,#e07c3a)"><i class="fa-solid fa-user-doctor"></i></div>
+        <div class="doc-info"><h3>Dr. Lalitha Prasad</h3><span class="doc-spec">Gynaecologist & Obstetrician</span><p>MBBS, MS, FRCOG — 22+ years experience</p><a href="#appointment" class="btn-book-doc">Book Appointment</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPOINTMENT -->
+<section id="appointment" class="appointment">
+  <div class="appt-orb"></div>
+  <div class="container">
+    <div class="appt-grid">
+      <div class="appt-info">
+        <div><span class="sec-label light">Book Appointment</span></div>
+        <h2 class="sec-title light">Schedule Your <em style="color:var(--gold)">Visit</em> Today</h2>
+        <p>Fill in the form and our team will confirm your appointment within 2 hours. You'll receive a confirmation call and email.</p>
+        <div class="appt-feats">
+          <div class="apf"><i class="fa-solid fa-clock"></i> Confirmation within 2 hours</div>
+          <div class="apf"><i class="fa-solid fa-phone"></i> We'll call you back</div>
+          <div class="apf"><i class="fa-solid fa-calendar-check"></i> Flexible scheduling</div>
+          <div class="apf"><i class="fa-solid fa-shield-check"></i> Your data is secure</div>
+        </div>
+        <div class="emerg-box">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <div><strong>Emergency?</strong><span>Call us 24/7 at <a href="tel:+914023456789">+91 40 2345 6789</a></span></div>
+        </div>
+      </div>
+      <div class="form-wrap">
+        <form id="appointmentForm" class="appt-form" novalidate>
+          <div class="form-row">
+            <div class="fg"><label>First Name *</label><input type="text" id="fname" placeholder="Ravi" required/></div>
+            <div class="fg"><label>Last Name *</label><input type="text" id="lname" placeholder="Kumar" required/></div>
+          </div>
+          <div class="form-row">
+            <div class="fg"><label>Email Address *</label><input type="email" id="email" placeholder="ravi@email.com" required/></div>
+            <div class="fg"><label>Phone Number *</label><input type="tel" id="phone" placeholder="+91 98765 43210" required/></div>
+          </div>
+          <div class="form-row">
+            <div class="fg"><label>Age</label><input type="number" id="age" placeholder="35" min="0" max="120"/></div>
+            <div class="fg"><label>Gender</label><select id="gender"><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select></div>
+          </div>
+          <div class="fg"><label>Department / Speciality *</label>
+            <select id="department" required>
+              <option value="">Choose a speciality</option>
+              <option>Cardiology</option><option>Neurology</option><option>Orthopedics</option>
+              <option>Oncology</option><option>Pediatrics</option><option>Gynecology & Obstetrics</option>
+              <option>Ophthalmology</option><option>Pulmonology</option><option>Dermatology</option>
+              <option>Gastroenterology</option><option>Urology</option><option>General Medicine</option>
+              <option>ENT</option><option>Psychiatry</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="fg"><label>Preferred Date *</label><input type="date" id="date" required/></div>
+            <div class="fg"><label>Preferred Time</label>
+              <select id="time">
+                <option value="">Choose a slot</option>
+                <option>09:00 AM – 10:00 AM</option><option>10:00 AM – 11:00 AM</option>
+                <option>11:00 AM – 12:00 PM</option><option>02:00 PM – 03:00 PM</option>
+                <option>03:00 PM – 04:00 PM</option><option>04:00 PM – 05:00 PM</option>
+              </select>
+            </div>
+          </div>
+          <div class="fg"><label>Symptoms / Message</label><textarea id="message" rows="3" placeholder="Briefly describe your symptoms or reason for visit..."></textarea></div>
+          <button type="submit" class="btn-submit" id="submitBtn">
+            <span id="btnText"><i class="fa-solid fa-calendar-plus"></i> Confirm Appointment</span>
+            <span id="btnLoading" style="display:none"><i class="fa-solid fa-spinner fa-spin"></i> Sending...</span>
+          </button>
+          <div id="formMsg" class="form-msg"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact">
+  <div class="container">
+    <div class="sec-header">
+      <span class="sec-label">Find Us</span>
+      <h2 class="sec-title">Contact & <em>Location</em></h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-cards">
+        <div class="cc"><div class="cc-icon"><i class="fa-solid fa-location-dot"></i></div><div><h4>Address</h4><p>Plot No. 45, Kavuri Hills, Madhapur,<br/>Hyderabad, Telangana — 500 081</p></div></div>
+        <div class="cc"><div class="cc-icon"><i class="fa-solid fa-phone"></i></div><div><h4>Phone</h4><p><a href="tel:+914023456789">+91 40 2345 6789</a><br/><a href="tel:+919876543210">+91 98765 43210</a> (Emergency)</p></div></div>
+        <div class="cc"><div class="cc-icon"><i class="fa-solid fa-envelope"></i></div><div><h4>Email</h4><p><a href="mailto:info@lalithahospital.com">info@lalithahospital.com</a><br/><a href="mailto:appointments@lalithahospital.com">appointments@lalithahospital.com</a></p></div></div>
+        <div class="cc"><div class="cc-icon"><i class="fa-solid fa-clock"></i></div><div><h4>Working Hours</h4><p>OPD: Mon–Sat 9AM–6PM<br/>Emergency: 24 × 7</p></div></div>
+      </div>
+      <div class="map-box">
+        <i class="fa-solid fa-map-location-dot"></i>
+        <p>Kavuri Hills, Madhapur<br/>Hyderabad, Telangana</p>
+        <a href="https://maps.google.com/?q=Kavuri+Hills+Madhapur+Hyderabad" target="_blank" class="btn-primary" style="margin-top:1.2rem">Open in Google Maps</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#home" class="logo">
+          <svg class="logo-cross" viewBox="0 0 40 40"><rect x="16" y="2" width="8" height="36" rx="3"/><rect x="2" y="16" width="36" height="8" rx="3"/></svg>
+          <div class="logo-text"><span class="logo-main">Lalitha</span><span class="logo-sub">Multispeciality Hospital</span></div>
+        </a>
+        <p>Compassionate care, advanced medicine. Your health is our mission.</p>
+        <div class="socials">
+          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="fc"><h4>Quick Links</h4><ul><li><a href="#home">Home</a></li><li><a href="#about">About Us</a></li><li><a href="#specialities">Specialities</a></li><li><a href="#doctors">Doctors</a></li><li><a href="#appointment">Book Appointment</a></li></ul></div>
+      <div class="fc"><h4>Specialities</h4><ul><li><a href="#">Cardiology</a></li><li><a href="#">Neurology</a></li><li><a href="#">Orthopedics</a></li><li><a href="#">Oncology</a></li><li><a href="#">Pediatrics</a></li></ul></div>
+      <div class="fc">
+        <h4>Emergency</h4>
+        <div class="emerg-footer"><i class="fa-solid fa-phone-volume"></i><div><strong>24/7 Helpline</strong><a href="tel:+914023456789">+91 40 2345 6789</a></div></div>
+        <p style="margin-top:1rem;font-size:.82rem;opacity:.55;line-height:1.6">For life-threatening emergencies, please call 108 immediately.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Lalitha Multispeciality Hospital. All rights reserved.</p>
+      <div class="footer-blinks"><a href="#">Privacy Policy</a><a href="#">Terms of Use</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── EmailJS Config ──────────────────────────────────────
+   TARGET: harshithking24@gmail.com
+   Replace these 3 values after setting up emailjs.com
+   ─────────────────────────────────────────────────────── */
+const EJ_KEY      = 'YOUR_PUBLIC_KEY';
+const EJ_SERVICE  = 'YOUR_SERVICE_ID';
+const EJ_TEMPLATE = 'YOUR_TEMPLATE_ID';
+const DEST_EMAIL  = 'harshithking24@gmail.com';
+
+if(typeof emailjs!=='undefined') emailjs.init({publicKey:EJ_KEY});
+
+/* ── Preloader ──────────────────────────────────────────── */
+window.addEventListener('load',()=>{
+  setTimeout(()=>document.getElementById('preloader').classList.add('hidden'),1100);
+});
+
+/* ── Navbar scroll ──────────────────────────────────────── */
+const nav=document.getElementById('navbar');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>50));
+
+/* ── Hamburger ──────────────────────────────────────────── */
+document.getElementById('hamburger').addEventListener('click',()=>{
+  document.getElementById('mobileMenu').classList.toggle('open');
+});
+document.querySelectorAll('#mobileMenu a').forEach(a=>a.addEventListener('click',()=>{
+  document.getElementById('mobileMenu').classList.remove('open');
+}));
+
+/* ── Scroll fade-in ─────────────────────────────────────── */
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});
+},{threshold:0.1});
+document.querySelectorAll('.spec-card,.doc-card').forEach(el=>io.observe(el));
+
+/* ── Date min ───────────────────────────────────────────── */
+const di=document.getElementById('date');
+if(di) di.min=new Date().toISOString().split('T')[0];
+
+/* ── Stats counter ──────────────────────────────────────── */
+const statsEl=document.querySelector('.hero-stats');
+let counted=false;
+new IntersectionObserver(([e])=>{
+  if(e.isIntersecting&&!counted){
+    counted=true;
+    document.querySelectorAll('.stat-num').forEach(el=>{
+      const target=parseInt(el.dataset.target);
+      const suffix=el.dataset.suffix;
+      const isLarge=target>999;
+      const displayTarget=isLarge?Math.round(target/1000):target;
+      let cur=0; const step=Math.ceil(displayTarget/60);
+      const t=setInterval(()=>{
+        cur=Math.min(cur+step,displayTarget);
+        el.textContent=(isLarge?cur+'k':cur)+suffix;
+        if(cur>=displayTarget)clearInterval(t);
+      },25);
+    });
+  }
+},{threshold:0.5}).observe(statsEl);
+
+/* ── Form submit ────────────────────────────────────────── */
+function showMsg(type,txt){
+  const m=document.getElementById('formMsg');
+  m.textContent=txt; m.className='form-msg '+type;
+  setTimeout(()=>{m.className='form-msg';m.textContent='';},6000);
+}
+
+document.getElementById('appointmentForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const d={
+    fname:document.getElementById('fname').value.trim(),
+    lname:document.getElementById('lname').value.trim(),
+    email:document.getElementById('email').value.trim(),
+    phone:document.getElementById('phone').value.trim(),
+    age:document.getElementById('age').value||'Not provided',
+    gender:document.getElementById('gender').value||'Not provided',
+    department:document.getElementById('department').value,
+    date:document.getElementById('date').value,
+    time:document.getElementById('time').value||'Not specified',
+    message:document.getElementById('message').value||'No additional info',
+    to_email:DEST_EMAIL,
+    submitted_at:new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})
+  };
+  if(!d.fname) return showMsg('error','Please enter your first name.');
+  if(!d.lname) return showMsg('error','Please enter your last name.');
+  if(!d.email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email)) return showMsg('error','Please enter a valid email address.');
+  if(!d.phone) return showMsg('error','Please enter your phone number.');
+  if(!d.department) return showMsg('error','Please select a department.');
+  if(!d.date) return showMsg('error','Please select a preferred date.');
+
+  const btn=document.getElementById('submitBtn');
+  document.getElementById('btnText').style.display='none';
+  document.getElementById('btnLoading').style.display='inline';
+  btn.disabled=true;
+
+  const configured=EJ_KEY!=='YOUR_PUBLIC_KEY'&&EJ_SERVICE!=='YOUR_SERVICE_ID';
+
+  if(!configured){
+    await new Promise(r=>setTimeout(r,1500));
+    showMsg('success','⚙️ Setup EmailJS to send to harshithking24@gmail.com (see script instructions)');
+    console.log('%c📋 Appointment — Demo Mode','color:#063d52;font-weight:bold;font-size:14px');
+    console.log('→ Will send to: harshithking24@gmail.com');
+    console.table(d);
+    document.getElementById('appointmentForm').reset();
+  } else {
+    try{
+      await emailjs.send(EJ_SERVICE,EJ_TEMPLATE,d);
+      showMsg('success',`✅ Appointment sent to harshithking24@gmail.com! We'll confirm ${d.fname} within 2 hrs.`);
+      document.getElementById('appointmentForm').reset();
+    }catch(err){
+      console.error(err);
+      showMsg('error','❌ Failed to send. Call us at +91 40 2345 6789.');
+    }
+  }
+  btn.disabled=false;
+  document.getElementById('btnText').style.display='inline';
+  document.getElementById('btnLoading').style.display='none';
+});
+</script>
+</body>
+</html>
