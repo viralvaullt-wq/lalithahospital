@@ -384,6 +384,10 @@ em{font-style:italic;color:#0d7ea0;font-family:'Cormorant Garamond',serif;font-w
         <div class="doc-info"><h3>Dr.P. Ayyappa</h3><span class="doc-spec">General Medicine</span><p>MBBS, MD — 3+ years experience</p><a href="#appointment" class="btn-book-doc">Book Appointment</a></div>
       </div>
       <div class="doc-card">
+        <div class="doc-avatar" style="background:linear-gradient(135deg,#0a4f6e,#0d7ea0)"><i class="fa-solid fa-user-doctor"></i></div>
+        <div class="doc-info"><h3>Dr.K.Satya Ganesh</h3><span class="doc-spec">Anesthesia</span><p>MBBS — 1+ years experience</p><a href="#appointment" class="btn-book-doc">Book Appointment</a></div>
+      </div>
+      <div class="doc-card">
         <div class="doc-avatar" style="background:linear-gradient(135deg,#2d6a4f,#40916c)"><i class="fa-solid fa-user-doctor"></i></div>
         <div class="doc-info"><h3>Dr. Peddineni Anudeep</h3><span class="doc-spec">Ortho(Spine Surgeon)</span><p>MBBS, DNB — 5+ years experience</p><a href="#appointment" class="btn-book-doc">Book Appointment</a></div>
       </div>
@@ -488,9 +492,9 @@ em{font-style:italic;color:#0d7ea0;font-family:'Cormorant Garamond',serif;font-w
     </div>
     <div class="contact-grid">
       <div class="contact-cards">
-        <div class="cc"><div class="cc-icon"><i class="fa-solid fa-location-dot"></i></div><div><h4>Address</h4><p>Plot No. 45, Kavuri Hills, Madhapur,<br/>Hyderabad, Telangana — 500 081</p></div></div>
-        <div class="cc"><div class="cc-icon"><i class="fa-solid fa-phone"></i></div><div><h4>Phone</h4><p><a href="tel:+914023456789">+91 40 2345 6789</a><br/><a href="tel:+919876543210">+91 98765 43210</a> (Emergency)</p></div></div>
-        <div class="cc"><div class="cc-icon"><i class="fa-solid fa-envelope"></i></div><div><h4>Email</h4><p><a href="mailto:info@lalithahospital.com">info@lalithahospital.com</a><br/><a href="mailto:appointments@lalithahospital.com">appointments@lalithahospital.com</a></p></div></div>
+        <div class="cc"><div class="cc-icon"><i class="fa-solid fa-location-dot"></i></div><div><h4>Address</h4><p>60FEET ROAD<br/>Ongole, Andhra Pradesh — 523 001</p></div></div>
+        <div class="cc"><div class="cc-icon"><i class="fa-solid fa-phone"></i></div><div><h4>Phone</h4><p><a href="tel:+919121336353">+91 91 2163 3353</a><br/><a href="tel:+917075254777">+91 70 7525 4777</a> (Emergency)</p></div></div>
+        <div class="cc"><div class="cc-icon"><i class="fa-solid fa-envelope"></i></div><div><h4>Email</h4><p><a href="mailto:info@lalithahospital.com">info@lalithahospital.com</a><br/><a href="mailto:lalithalmsh2025@gmail.com">appointments@lalithalmsh2025@gmail.com</a></p></div></div>
         <div class="cc"><div class="cc-icon"><i class="fa-solid fa-clock"></i></div><div><h4>Working Hours</h4><p>OPD: Mon–Sat 9AM–6PM<br/>Emergency: 24 × 7</p></div></div>
       </div>
       <div class="map-box">
@@ -536,7 +540,7 @@ em{font-style:italic;color:#0d7ea0;font-family:'Cormorant Garamond',serif;font-w
 
 <script>
 /* ── EmailJS Config ──────────────────────────────────────
-   TARGET: harshithking24@gmail.com
+   TARGET: lalithalmsh2025@gmail.com
    Replace these 3 values after setting up emailjs.com
    ─────────────────────────────────────────────────────── */
 const EJ_KEY      = 'PnGa5xliGKtDG5qFH';
@@ -633,7 +637,7 @@ document.getElementById('appointmentForm').addEventListener('submit',async e=>{
 
   if(!configured){
     await new Promise(r=>setTimeout(r,1500));
-    showMsg('success','⚙️ Setup EmailJS to send to harshithking24@gmail.com (see script instructions)');
+    showMsg('success','⚙️ Setup EmailJS to send to lalithalmsh2025@gmail.com (see script instructions)');
     console.log('%c📋 Appointment — Demo Mode','color:#063d52;font-weight:bold;font-size:14px');
     console.log('→ Will send to: harshithking24@gmail.com');
     console.table(d);
@@ -641,11 +645,11 @@ document.getElementById('appointmentForm').addEventListener('submit',async e=>{
   } else {
     try{
       await emailjs.send(EJ_SERVICE,EJ_TEMPLATE,d);
-      showMsg('success',`✅ Appointment sent to harshithking24@gmail.com! We'll confirm ${d.fname} within 2 hrs.`);
+      showMsg('success',`✅ Appointment sent to lalithalmsh2025@gmail.com! We'll confirm ${d.fname} within 2 hrs.`);
       document.getElementById('appointmentForm').reset();
     }catch(err){
       console.error(err);
-      showMsg('error','❌ Failed to send. Call us at +91 40 2345 6789.');
+      showMsg('error','❌ Failed to send. Call us at +91 91 2163 3353.');
     }
   }
   btn.disabled=false;
